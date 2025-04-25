@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f0fc;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #9b59b6;
+    }
+   
+  </style>
+</head>
+<body>
+  <h1>Image Weaver</h1>
+  <p>Convert your images to different formats instantly in your browser</p>
+
+  <div class="uploader" id="drop-area">
+    <p><strong>Drag & Drop Image(s) Here</strong> or click to browse files</p>
+    <input type="file" id="fileElem" accept="image/*" style="display:none" multiple>
+  </div>
+
+  <div id="preview-section" style="display:none; text-align:center">
+    <h3>Select Output Format(s):</h3>
+    <div class="output-options">
+      <button class="format-btn" data-format="png">PNG</button>
+      <button class="format-btn" data-format="jpg">JPG</button>
+      <button class="format-btn" data-format="jpeg">JPEG</button>
+      <button class="format-btn" data-format="webp">WebP</button>
+      <button class="format-btn" data-format="bmp">BMP</button>
+      <button class="format-btn" data-format="gif">GIF</button>
+      <button class="format-btn" data-format="avif">AVIF</button>
+      <button class="format-btn" data-format="tiff">TIFF</button>
+    </div>
+
+    <button class="download-btn" onclick="convertAndDownload()">Convert & Download</button>
+    <div class="preview-wrapper" id="previewWrapper"></div>
+    <canvas id="canvas" style="display:none;"></canvas>
+  </div>
+
+  
+</body>
+</html>
