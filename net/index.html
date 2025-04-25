@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Converter</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 500px; margin: auto; }
+    label, input, select, button { display: block; margin-top: 15px; width: 100%; }
+    #download { margin-top: 15px; display: none; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <h2>Universal Image Converter</h2>
+
+  <label for="upload">Select an image:</label>
+  <input type="file" id="upload" accept="image/*" />
+
+  <label for="format">Choose output format:</label>
+  <select id="format">
+    <option value="jpeg">JPEG</option>
+    <option value="png">PNG</option>
+    <option value="webp">WEBP</option>
+  </select>
+
+  <button id="convert">Convert</button>
+  <a id="download" download="">Download Converted Image</a>
+
+  <canvas id="canvas" style="display: none;"></canvas>
+
+  <script>
+    const upload = document.getElementById('upload');
+    const formatSelect = document.getElementById('format');
+    const convertBtn = document.getElementById('convert');
+    const downloadLink = document.getElementById('download');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let img = new Image();
+
+    let fileData = null;
+
+    upload.addEventListener('change', () => {
+      const file = upload.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        img = new Image();
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+        };
+        img.src = reader.result;
+        fileData = file.name.split('.')[0]; // get base name
+      };
+      reader.readAsDataURL(file);
+    });
+
+    convertBtn.addEventListener('click', () => {
+      if (!img.src) {
+        alert("Please upload an image first.");
+        return;
+      }
+
+      const format = formatSelect.value;
+      let mime = "image/" + (format === "jpeg" ? "jpeg" : format);
+      let extension = format === "jpeg" ? "jpg" : format;
+
+      const dataURL = canvas.toDataURL(mime, 0.95);
+      downloadLink.href = dataURL;
+      downloadLink.download = `${fileData || 'converted'}.${extension}`;
+      downloadLink.style.display = 'inline-block';
+      downloadLink.textContent = `Download as .${extension.toUpperCase()}`;
+    });
+  </script>
+
+</body>
+</html>
